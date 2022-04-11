@@ -4,4 +4,4 @@
 
 ### Tasking
 
-- [ ] lazy import Suspense
+- [x] lazy import Suspense
