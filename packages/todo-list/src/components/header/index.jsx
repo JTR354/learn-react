@@ -1,6 +1,7 @@
 import "./styles.css";
 import logo from "../../logo.svg";
 const Header = () => {
+  console.log('...run', Header.name )
   return (
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />

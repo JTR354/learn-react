@@ -1,6 +1,7 @@
-import { useReducer, useState } from "react";
+import { useState } from "react";
 
-const Add = (props) => {
+const Control = ({handler}) => {
+  console.log('...run', Control.name )
   const [toggle, setToggle] = useState(false);
   const [value, setValue] = useState("");
   return (
@@ -16,7 +17,7 @@ const Add = (props) => {
         className="button"
         onClick={() => {
           setToggle(true);
-          if (props.onInsert(value)) {
+          if (handler.current.onInsert(value)) {
             setToggle(false);
             setValue("");
           }
@@ -28,4 +29,4 @@ const Add = (props) => {
   );
 };
 
-export default Add;
+export default Control;

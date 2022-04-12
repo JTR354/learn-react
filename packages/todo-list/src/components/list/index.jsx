@@ -1,4 +1,20 @@
-const List = ({ data, onDel, onSelect }) => {
+import { useLayoutEffect, useState, useEffect } from "react";
+
+const List = ({ handler }) => {
+  console.log('...run', List.name )
+
+  const [data, setData] = useState(initData);
+  useCacheData(data);
+
+  useLayoutEffect(() => {
+    handler.current.onInsert = (val) => {
+      console.log("insert");
+      if (val) {
+        setData((r) => r.concat(createItemData(val)));
+      }
+      return val;
+    };
+  }, []);
   return (
     <ul>
       {data.map((it) => (
@@ -9,7 +25,7 @@ const List = ({ data, onDel, onSelect }) => {
                 type="checkbox"
                 defaultChecked={it.checked}
                 onClick={() => {
-                  onSelect(it);
+                  toggle(setData, it.id);
                 }}
               />
               {it.val}
@@ -19,7 +35,7 @@ const List = ({ data, onDel, onSelect }) => {
               style={{ alignContent: "flex-end" }}
               onClick={(e) => {
                 e.stopPropagation();
-                onDel(it);
+                setData((r) => r.filter((item) => it.id !== item.id));
               }}
             >
               删除
@@ -31,35 +47,33 @@ const List = ({ data, onDel, onSelect }) => {
   );
 };
 
-function Item(props) {
-  const { val, onDel, checked, onSelect } = props;
-  return (
-    <li>
-      <label style={{ display: "flex", justifyContent: "space-around" }}>
-        <div>
-          <input
-            type="checkbox"
-            defaultChecked={checked}
-            value={val}
-            onClick={() => {
-              onSelect(props);
-            }}
-          />
-          {val}
-        </div>
+export default List;
 
-        <button
-          style={{ alignContent: "flex-end" }}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDel(props);
-          }}
-        >
-          删除
-        </button>
-      </label>
-    </li>
-  );
+function createItemData(val) {
+  return {
+    id: String(Math.random()).slice(-6),
+    val,
+    checked: false,
+  };
 }
 
-export default List;
+function initData() {
+  return JSON.parse(localStorage.getItem("data")) || [];
+}
+
+function useCacheData(data) {
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(data));
+  }, [data]);
+}
+
+function toggle(update, id) {
+  update((r) =>
+    r.map((it) => {
+      if (it.id === id) {
+        it = { ...it, checked: !it.checked };
+      }
+      return it;
+    })
+  );
+}
