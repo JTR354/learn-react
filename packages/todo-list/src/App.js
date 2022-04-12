@@ -5,6 +5,7 @@ import Control from "./components/control";
 import { useEffect, useState } from "react";
 
 function App() {
+  console.log(App.name, 'run')
   const [data, setData] = useState(initData);
   useCacheData(data);
   return (

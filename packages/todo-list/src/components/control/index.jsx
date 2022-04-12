@@ -1,6 +1,7 @@
 import { useReducer, useState } from "react";
 
 const Add = (props) => {
+  console.log(Add.name, 'run')
   const [toggle, setToggle] = useState(false);
   const [value, setValue] = useState("");
   return (

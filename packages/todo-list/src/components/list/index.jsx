@@ -1,4 +1,5 @@
 const List = ({ data, onDel, onSelect }) => {
+  console.log(List.name, 'run')
   return (
     <ul>
       {data.map((it) => (
