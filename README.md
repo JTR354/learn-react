@@ -5,3 +5,4 @@
 ### Tasking
 
 - [x] lazy import Suspense
+- [x] TodoList Practice
