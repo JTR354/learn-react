@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/JTR354/learn-react/issues"
   },
-  "homepage": "https://github.com/JTR354/learn-react#readme"
+  "homepage": "https://github.com/JTR354/learn-react#readme",
+  "dependencies": {
+    "antd": "^4.19.5"
+  }
 }
