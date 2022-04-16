@@ -3,6 +3,7 @@ import pyautogui
 if __name__ == "__main__":
     pyautogui.FAILSAFE = False
     count = 0
+    print('run..............')
     while True:
         # if count > 1e20:
         #     break
