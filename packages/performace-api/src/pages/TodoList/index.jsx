@@ -35,6 +35,7 @@ tools.set("onFinished", (state, action) => {
 
 function todoReducer(state, action) {
   const handler = tools.get(action.type);
+  if (typeof action === "function") return action(state);
   const result = (handler && handler(state, action)) || state;
   return result;
   // switch (type) {
@@ -177,7 +178,14 @@ function Create() {
             onClick={() => {
               if (value) {
                 // setValue("");
-                dispatch({ type: "onCreate", data: value });
+                // dispatch({ type: "onCreate", data: value });
+                dispatch((state) => {
+                  return state.concat({
+                    text: value,
+                    id: Math.random().toString(36).slice(2),
+                    checked: false,
+                  });
+                });
                 // onCreate(value);
               }
             }}
