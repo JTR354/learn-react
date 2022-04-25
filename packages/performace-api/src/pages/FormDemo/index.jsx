@@ -43,6 +43,7 @@ const FormDemo = () => {
   // const form = useForm();
   const [form, setForm] = useState({});
   const [count, setCount] = useState(0);
+  console.log(form);
   return (
     <div>
       <h1>Form Demo</h1>
@@ -60,6 +61,9 @@ const FormDemo = () => {
         >
           submit
         </button>
+        {/* <Field name="test">
+          <Test />
+        </Field> */}
       </Form>
       <p>
         {count}
@@ -71,13 +75,24 @@ const FormDemo = () => {
           add
         </button>
       </p>
-      <Test />
+      <Middle>
+        <Test form={form}></Test>
+      </Middle>
     </div>
   );
 };
 
-function Test() {
-  console.log("test");
+const Middle = memo(
+  ({ children }) => {
+    return children;
+  },
+  function (prev, next) {
+    return true;
+  }
+);
+
+function Test({ form }) {
+  console.log("test", form);
   return <p>test</p>;
 }
 
