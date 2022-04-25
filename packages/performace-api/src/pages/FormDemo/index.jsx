@@ -76,7 +76,7 @@ const FormDemo = () => {
         </button>
       </p>
       <Middle>
-        <Test form={form}></Test>
+        <Test form={form} count={count}></Test>
       </Middle>
     </div>
   );
@@ -87,13 +87,14 @@ const Middle = memo(
     return children;
   },
   function (prev, next) {
+    console.log(prev, next, "memo Middle");
     return true;
   }
 );
 
-function Test({ form }) {
-  console.log("test", form);
-  return <p>test</p>;
+function Test({ form, count }) {
+  console.log("test", form, count);
+  return <p>test{count}</p>;
 }
 
 const Input = () => {
@@ -152,4 +153,5 @@ export default FormDemo;
  *  state -> props -> context
  * 2. context
  *  会击穿 React.memo
+ * 3. React的slot组件的父级还是他的父级
  */
