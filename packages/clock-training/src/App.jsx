@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     if (Array.isArray(result)) {
       const current = result.filter((v) => v).length;
-      if (current <= 5) {
+      if (current >= 5) {
         alert("恭喜你完成今天任务!!!!");
       }
       setRight((v) => v + current);
@@ -40,7 +40,8 @@ function App() {
         }}
         right={right}
         onCheckIn={() => {
-          setResult(check(answers, clocks));
+          const next = window.confirm("确定交卷吗?");
+          next && setResult(check(answers, clocks));
         }}
       />
       <Clocks clocks={clocks} answers={answers} result={result} />
