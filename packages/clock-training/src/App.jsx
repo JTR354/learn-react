@@ -1,8 +1,9 @@
-import { useReducer, useState } from "react";
+import { useReducer, useRef, useState, useEffect } from "react";
 
-import Clock from "react-clock";
-import "react-clock/dist/Clock.css";
 import "./App.css";
+
+import Title from "./component/Title";
+import Clocks from "./component/Clocks";
 
 function App() {
   const [clocks, dispatch] = useReducer(
@@ -12,55 +13,59 @@ function App() {
       }),
     []
   );
-  const [count, setCount] = useState(0);
-  const [show, setShow] = useState(false);
+
+  const [result, setResult] = useState();
+
+  const [right, setRight] = useState(0);
+
+  const answers = useRef([]);
+
+  useEffect(() => {
+    if (Array.isArray(result)) {
+      const current = result.filter((v) => v).length;
+      if (current <= 5) {
+        alert("恭喜你完成今天任务!!!!");
+      }
+      setRight((v) => v + current);
+    }
+  }, [result]);
 
   return (
     <div>
-      <h1>
-        <span
-          onClick={() => {
-            const next = window.confirm(
-              count ? "确定进入下一题?" : "准备好了吗? 家弘?"
-            );
-            if (next) {
-              setCount(count + 1);
-              dispatch();
-              setShow(false);
-            }
-          }}
-        >
-          {!count ? "开始" : "下一题"}
-        </span>
-        {!!count && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShow(!show);
-            }}
-          >
-            {!show ? "查看答案" : "隐藏答案"}
-          </button>
-        )}
-      </h1>
-      {!!count ? <h2>第{count}题</h2> : null}
-      <section className="clockWrapper">
-        {clocks.map((value) => (
-          <div>
-            <Clock key={value} value={value} />
-            {show && <p>{value}</p>}
-          </div>
-        ))}
-      </section>
+      <Title
+        onNext={() => {
+          dispatch();
+          setResult();
+          answers.current = [];
+        }}
+        right={right}
+        onCheckIn={() => {
+          setResult(check(answers, clocks));
+        }}
+      />
+      <Clocks clocks={clocks} answers={answers} result={result} />
     </div>
   );
 }
 
+export default App;
+
 function createRandomTime() {
-  const h = String((Math.random() * 24) >> 0);
+  const h = String((Math.random() * 12) >> 0);
   const m = String((Math.random() * 60) >> 0);
   const s = String((Math.random() * 60) >> 0);
   return [h.padStart(2, "0"), m.padStart(2, "0"), s.padStart(2, "0")].join(":");
 }
 
-export default App;
+function check(answers, clocks) {
+  const result = [];
+  const ans = answers.current.map((it) =>
+    it.map((c) => c.padStart(2, "0")).join(":")
+  );
+  clocks.forEach((it, i) => {
+    if (it === ans[i]) {
+      result[i] = 1;
+    }
+  });
+  return result;
+}

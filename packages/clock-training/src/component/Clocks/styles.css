@@ -1,0 +1,10 @@
+.clockWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.clockWrapper > div {
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
